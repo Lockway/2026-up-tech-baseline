@@ -8,6 +8,5 @@ __pycache__/*
 *.env
 *.venv
 venv/
-distribution/*
 predictions.csv
 submission.csv
