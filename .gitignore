@@ -10,3 +10,27 @@ __pycache__/*
 venv/
 predictions.csv
 submission.csv
+
+# Secrets
+.env
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Competition data and outputs
+distribution/corpus/
+distribution/test_suite/Encrypted_Test_Suite.json
+submission.csv
+submissions/
+sample_corpus/
+contest information/
+official-data/
+
+# Python / local
+__pycache__/
+*.pyc
+.pytest_cache/
+.tmp_pytest/
+*.log
