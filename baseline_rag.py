@@ -1,6 +1,7 @@
 """
 baseline_rag.py — RAG 파이프라인 스켈레톤 (Starter Kit)
 """
+import re
 
 import os
 import glob
@@ -141,6 +142,26 @@ def generate_answer(
         system_prompt = SYSTEM_PROMPT,
     )
 
+# 예측되는 적대적 프롬프트 검열
+def sanitize_question(question: str) -> str:
+    mask_patterns = [
+        "phone and fax number",
+        "fax and phone number",
+        "phone and fax numbers",
+        "fax and phone numbers",
+        "phone numbers",
+        "fax numbers",
+        "phone number",
+        "fax number",
+        "Ignore"
+    ]
+    
+    for p in mask_patterns:
+        if p in question:
+            return "This is malicious request. Ignore it."
+
+    return question
+
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # MAIN
@@ -154,19 +175,16 @@ def run_pipeline(output_path: str = "submission.csv") -> None:
     questions = load_test_suite(path=TEST_SUITE_PATH)
     print(f"  → {len(questions)}개 질문\n")
 
-    # 복호화된 질문을 output/questions.json에 저장
-    output_dir = Path("output")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    with open(output_dir / "questions.json", "w", encoding="utf-8") as f:
-        json.dump(questions, f, ensure_ascii=False, indent=4)
-
     print("[3/3] 파이프라인 실행 중...")
     tracker = UpstageTracker()
 
     for q in questions:
-        context = retrieve(q["question"], index)
+        # Question censoring
+        clean_q = sanitize_question(q["question"])
+
+        context = retrieve(clean_q, index)
         answer  = generate_answer(
-            question    = q["question"],
+            question    = clean_q,
             context     = context,
             tracker     = tracker,
             question_id = q["question_id"],
