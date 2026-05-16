@@ -27,7 +27,7 @@ starter_kit/
 ├── set_env.ps1              # 환경변수 설정 스크립트 (Windows)
 └── distribution/
     ├── corpus/              # PDF 코퍼스 (대회 당일 주최 측 배포)
-    └── test_suite/
+    └── dist/
         └── Encrypted_Test_Suite.json   # 암호화된 질문 셋 (대회 당일 배포)
 ```
 

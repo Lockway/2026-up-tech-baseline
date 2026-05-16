@@ -31,7 +31,7 @@ from validator import validate
 from upstage_client import Embedder
 
 CORPUS_DIR      = "distribution/corpus"
-TEST_SUITE_PATH = "distribution/test_suite/Encrypted_Test_Suite.json"
+TEST_SUITE_PATH = "distribution/dist/Encrypted_Test_Suite.json"
 
 CHUNK_SIZE   = 800        # 문자 수
 CHUNK_OVERLAP = 150
